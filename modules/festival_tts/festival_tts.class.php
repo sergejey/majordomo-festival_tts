@@ -144,9 +144,9 @@ function usual(&$out) {
  $this->admin($out);
 }
 
- function processSubscription($event, $details='') {
+ function processSubscription($event, &$details) {
   $this->getConfig();
-  if ($event=='SAY' && !$this->config['DISABLED']) {
+  if ($event=='SAY' && !$this->config['DISABLED'] && !$details['ignoreVoice']) {
     $level=$details['level'];
     $message=$details['message'];
     if ($level >= (int)getGlobal('minMsgLevel'))
@@ -161,6 +161,7 @@ function usual(&$out) {
                $ln = 'english';
             }
             safe_exec('echo "' . $message . '" | festival --language ' . $ln . ' --tts', 1, $level);
+            $details['ignoreVoice']=1;
     }
   }
  }
