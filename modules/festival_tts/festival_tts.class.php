@@ -176,6 +176,16 @@ function usual(&$out) {
   subscribeToEvent($this->name, 'SAY');
   parent::install();
  }
+  
+   public function uninstall()
+   {
+      SQLExec("delete from pvalues where property_id in (select id FROM properties where object_id in (select id from objects where class_id = (select id from classes where title = 'festival_tts')))");
+      SQLExec("delete from properties where object_id in (select id from objects where class_id = (select id from classes where title = 'festival_tts'))");
+      SQLExec("delete from objects where class_id = (select id from classes where title = 'festival_tts')");
+      SQLExec("delete from classes where title = 'festival_tts'");
+      
+      parent::uninstall();
+   }
 // --------------------------------------------------------------------
 }
 /*
