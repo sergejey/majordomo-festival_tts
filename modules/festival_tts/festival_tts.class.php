@@ -173,9 +173,26 @@ function usual(&$out) {
 * @access private
 */
  function install($data='') {
-  subscribeToEvent($this->name, 'SAY');
-  parent::install();
+ subscribeFromEvent($this->name, 'SAY');
+ subscribeFromEvent($this->name, 'SAYTO');
+ subscribeFromEvent($this->name, 'ASK');
+ parent::install();
  }
+  
+      /**
+     * Uninstall
+     *
+     * Module deinstallation routine
+     *
+     * @access private
+     */
+    function uninstall()
+    {
+        unsubscribeFromEvent($this->name, 'SAY');
+        unsubscribeFromEvent($this->name, 'SAYTO');
+        unsubscribeFromEvent($this->name, 'ASK');
+        parent::uninstall();
+    }
 // --------------------------------------------------------------------
 }
 /*
